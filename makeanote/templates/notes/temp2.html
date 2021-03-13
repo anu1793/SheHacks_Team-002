@@ -37,12 +37,15 @@
                 // To write the selected text into the textarea
                 document.testform.selectedtext.value = selectedText;
 
+                console.log("Printing selectedText");
+                console.log(selectedText);
+
 
                 $.ajax({
-                    url: 'http://localhost:8000/notes/note/value',
+                    url: 'http://127.0.0.1:8000/notes/note/value',
                     type: 'POST',
                     data: JSON.stringify({
-                        "note":"hello"}),
+                        "note": selectedText}),
                     mode: 'same-origin',
                     timeout: 0,
                     processData: false,

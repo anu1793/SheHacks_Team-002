@@ -12,14 +12,18 @@ def index(request):
     # if request.method == 'POST':
     # data = request.POST.get('note', "Hello")
     data = json.loads(request.body)
+    print("--------------------------")
     print(data['note'])
     # else:
     #     data = {'note': "qwerty"}
     get_auth(data['note'])
-    return render(request, 'notes/temp2.html')
+    return HttpResponse("Success")
 
 
 def get_auth(data):
+    print("print auth")
+    print(data)
+    print(type(data))
     gauth = GoogleAuth()
     gauth.LocalWebserverAuth()  # client_secrets.json need to be in the same directory as the script
     drive = GoogleDrive(gauth)
@@ -44,5 +48,6 @@ def get_auth(data):
 
 @csrf_exempt
 def test(request):
+    print("=============================")
     return render(request, 'notes/temp2.html')
 
