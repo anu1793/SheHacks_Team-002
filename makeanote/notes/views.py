@@ -2,21 +2,47 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_protect,csrf_exempt
 import nltk
-
+from textblob import TextBlob 
 from nltk.corpus import wordnet 
-
+from googletrans import Translator
 import json
+from google_trans_new import google_translator
 
-@csrf_exempt
+def translate_word_text(text):
+    print(text)
+    blob = TextBlob(text)
+    result = {}
+    print(blob)
+    if (blob.detect_language() != 'en'):
+        result["src"] = blob.detect_language()
+        result["word"] = blob.translate(to='en')
+        print(result)
+    #detect the language
+   # lang = TextBlob(text)
+    #detected_language = lang.detect_language()
+#   translate it to english
+
+    # print(result.src)
+    # print(result.dest)
+    # print(result.origin)
+    # print(result.text)
+    # print(result.pronunciation)
+    return result
+
+
+
+    
+
+
 # @ensure_csrf_cookie
-
-
+@csrf_exempt
 def index(request):
     try:
         data = json.loads(request.body) 
         print(data['word'])
         nltk.download('wordnet')
-        syns = wordnet.synsets(data['word'])
+        result = translate_word_text(data['word'])
+        syns = wordnet.synsets(result["word"])
         definition = syns[0].definition()
         usage = syns[0].examples()
         print(definition)
@@ -24,6 +50,9 @@ def index(request):
         response_data = {}
         response_data['success'] = 'Create word successful!'
         response_data['def'] = send_text
+        
+        # response_data['dest']=result.dest
+        response_data['src'] = result["src"]
         return HttpResponse(
                 json.dumps(response_data),
                 content_type="application/json"
