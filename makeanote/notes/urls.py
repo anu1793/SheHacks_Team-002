@@ -1,7 +1,9 @@
 from django.urls import path
+from django.conf.urls import url, include
 from notes import views
 
 urlpatterns = [
-        path('', views.index,name='temp2'),
-        path('', views.drive_auth, name="drive_auth"),
+        url('', views.test, name='test'),
+        url(r'^note/value', views.index, name='temp2'),
+
 ]
