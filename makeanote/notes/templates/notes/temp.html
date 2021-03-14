@@ -13,8 +13,24 @@
     </script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 
 </head>
+<style>
+    .popup-tag{
+        position:absolute;
+        display:none;
+        background-color:#785448d4;
+        color:white;
+        padding:5px;
+        font-size:20px;
+        font-weight:bold;
+        text-decoration:underline;
+        cursor:pointer;
+        -webkit-filter: drop-shadow(0 1px 5px rgba(113,158,206,0.8));
+        }
+</style>
 {% csrf_token %} 
 <body>
 <div class="container">
@@ -197,13 +213,28 @@ console.log(csrftoken)
             // dataType:"json",
             success: function (data) {
                     console.log(data)
-                   alert("Meaning - received" + data['def']);
+                    show_string = ' '
+                    summary = "Your word streak" + data["summary"]["count"] +"/\n"+ data["summary"]["rec"]
+                    show_string = data['def'] + '\n original lang: ' + summary
+                    selection = $.trim(show_string);
+                        if(selection != ''){
+                        $("span.popup-tag").css("display","block");
+                        $("span.popup-tag").css("top",event.clientY);
+                        $("span.popup-tag").css("left",event.clientX);
+                        $("span.popup-tag").text(selection);
+                        $('span.popup-tag').delay(1000).fadeOut();
+                        }else{
+                        $("span.popup-tag").css("display","none");
+
+                        }
+                //    alert("Meaning - received " + data['def']);
             },
             error: function (e) {
                 console.log(e);
             }
         });
     }});
+    
 </script>
 
        
@@ -216,10 +247,12 @@ console.log(csrftoken)
 
 
 <div id="section_to_capture">
-    <h3>Html2canvas screenshot</h3>
+    <h3>Demo</h3>
 <p>
         School Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        The tale of custard the dragon is a ballad. It is a humorous poem about a cowardly dragon named custard. Custard is a pet of Belinda, a little girl who lives in a little white house with her pets. She had a black kitten named ink, a grey mouse named blink, a yellow dog mustard and a cowardly dragon custard. The poet says that all of them are very brave except the dragon. Others were described as brave and are compared with animals like bear, tiger or lion but the dragon is very timid. He always demands a safe place for himself. All the other characters make fun of him. But one night they are surprised by the entry of a pirate in the house. All of them get frightened and start hiding here and there. But to everyone’s surprise, the dragon not only tackles him but also eats him up. As all of them are saved by custard, they thank him. But at the end, they realize that they used to make fun of the dragon because of his being timid. So, all of them suddenly start saying that they are more brave and could have handled the situation in a much better way. Here the poet has tried to say that sometimes a timid person is the actual hero in the toughest situations of life.
     </p>
+    <span class="popup-tag"></span>
 </div>
 <button type="button" id="submit" class="btn btn-primary">Save Screenshot</button>
 </div>

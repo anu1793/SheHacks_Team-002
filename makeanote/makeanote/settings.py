@@ -69,6 +69,10 @@ INSTALLED_APPS = [
 
 ]
 
+# SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+# SESSION_COOKIE_DOMAIN = '.mysite.com'
+# SESSION_COOKIE_SECURE = False
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,6 +83,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.contrib.auth.signals',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware'
 ]
 
 ROOT_URLCONF = 'makeanote.urls'
@@ -132,6 +138,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 AUTHENTICATION_BACKENDS = [
+    'oauth2_provider.backends.OAuth2Backend',
+
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
@@ -151,7 +159,10 @@ SITE_ID = 3
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-
+# TEMPLATE_CONTEXT_PROCESSORS = (
+# 'django.core.context_processors.static',
+# 'django.core.context_processors.request',
+# )
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
