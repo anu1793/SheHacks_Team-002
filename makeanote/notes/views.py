@@ -6,6 +6,11 @@ from pydrive.drive import GoogleDrive
 import json
 
 # Create your views here.
+
+def index1(request):
+    return render(request, 'notes/front_ui.html')
+
+
 @csrf_exempt
 def index(request):
     print(request)
